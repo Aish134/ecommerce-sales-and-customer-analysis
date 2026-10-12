@@ -34,3 +34,26 @@ print(df.duplicated().sum())
 
 print("\nCustomers by state:")
 print(df['customer_state'].value_counts().head)
+
+# Customer distribution by state
+print("\nTop 10 states with the most customers:")
+state_counts = df['customer_state'].value_counts().head(10)
+print(state_counts)
+
+#Customer distribution by city
+print("\nTop 10 cities with the most customers:")
+city_counts = df['customer_city'].value_counts().head(10)
+print(city_counts)
+
+# Save the results in reports folder
+reports_dir = project_dir/"reports"
+if not reports_dir.exists():
+    reports_dir.mkdir()
+
+# Save the state counts to a CSV file
+state_counts.to_csv(reports_dir/"customer_distribution_by_state.csv", index=True)
+
+# Save the city counts to a CSV file
+city_counts.to_csv(reports_dir/"customer_distribution_by_city.csv", index=True)
+
+print("\nAnalysis completed. The results have been saved in the 'reports' folder.")
