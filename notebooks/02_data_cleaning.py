@@ -27,3 +27,42 @@ for column in ["customer_city", "customer_state"]:
 print("\nDataset shape after basic cleaning checks:", df.shape)
 print("\nMissing values after cleaning:")
 print(df.isnull().sum())
+
+# validate customer data
+print("\nValidating customer data")
+
+#check missing customer_id
+print("\nMissing customer IDs:",
+      df["customer_id"].isnull().sum())
+
+#check missing customer identities
+print("\nMissing customer identities:",
+      df["customer_unique_id"].isnull().sum())
+
+# Check invalid state codes
+valid_states = {
+    "AC", "AL", "AP", "AM", "BA", "CE", "DF",
+    "ES", "GO", "MA", "MT", "MS", "MG", "PA",
+    "PB", "PR", "PE", "PI", "RJ", "RN", "RS",
+    "RO", "RR", "SC", "SP", "SE", "TO"
+}
+
+invalid_states = set(df["customer_state"].dropna().unique()) - valid_states
+
+print("Unexpected state codes:", invalid_states)
+
+# Check duplicate customer IDs
+print(
+    "Duplicate customer IDs:",
+    df["customer_id"].duplicated().sum()
+)
+
+# Save cleaned dataset locally
+cleaned_dir = project_dir / "data" / "processed"
+cleaned_dir.mkdir(parents=True, exist_ok=True)
+
+cleaned_file = cleaned_dir / "olist_customers_cleaned.csv"
+df.to_csv(cleaned_file, index=False)
+
+print("\nCleaned dataset saved to:", cleaned_file)
+print("Final dataset shape:", df.shape)

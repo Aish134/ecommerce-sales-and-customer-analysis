@@ -10,6 +10,7 @@ venv/
 # Raw datasets
 data/*.csv
 data/*.zip
+data/**/*.csv
 
 # Jupyter checkpoints
 .ipynb_checkpoints/
